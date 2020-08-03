@@ -8,7 +8,7 @@ import reducers from './reducer';
 import thunk from 'redux-thunk';
 
 export default createStore(
-    combineReducers(reducers),  //数据结构设计
+    combineReducers(reducers,+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()),  //数据结构设计
     {
         from:'北京', //始发站城市
         to:'上海',    //终到站城市

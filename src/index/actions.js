@@ -24,7 +24,7 @@ export function setTo(to){
     }
 }
 //加载城市数据
-export function isLoadingCityData(isLoadingCityData){
+export function setIsLoadingCityData(isLoadingCityData){
     return{
         type:ACTION_SET_IS_LOADING_CITY_DATA,
         payload:isLoadingCityData,
@@ -38,7 +38,7 @@ export function setDepartDate(departDate){
     }
 }
 //设置日期
-export function setcityData(cityData){
+export function setCityData(cityData){
     return{
         type:ACTION_SET_CITY_DATA,
         payload:cityData,
@@ -79,11 +79,12 @@ export function hideCitySelector(){
 export function setselectedCity(city){
     return (dispatch,getState)=>{
         const {currentSelectingLeftCity}=getState();
-        if(!currentSelectingLeftCity){
+        if(currentSelectingLeftCity){
             dispatch(setFrom(city));
         }else{
             dispatch(setTo(city))
         }
+        dispatch(hideCitySelector());
     }
 }
 
@@ -111,3 +112,39 @@ export function exchangeFromTo(){
     }
 }
 
+
+export function fetchCityData(){
+    return (dispatch,getState)=>{
+        const {isLoadingCityData}=getState();
+        if(isLoadingCityData){
+            return
+        }
+
+      const cache=JSON.parse(localStorage.getItem('city_data_cache')||'{}')
+      if(Date.now()<cache.expires){
+          dispatch(setCityData(cache.data));
+          return
+      }
+
+
+        dispatch(setIsLoadingCityData(true));  
+        fetch('/rest/cities?_'+Date.now())
+                .then(res=>res.json())
+                    .then(cityData=>{
+                        dispatch(setCityData(cityData));
+
+
+                        localStorage.setItem(
+                            'city_data_cache',
+                            JSON.stringify({
+                                expires:Date.now()+60*1000,
+                                data:cityData
+                            })
+                        )
+                        dispatch(setIsLoadingCityData(false));
+                    })
+                    .catch(()=>{
+                        setIsLoadingCityData(false);
+                    })
+    }
+}
