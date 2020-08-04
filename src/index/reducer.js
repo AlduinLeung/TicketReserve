@@ -28,14 +28,15 @@ export default{
             default: return state;;
 }
     },
-    departDate(state='',action){
-        const {type,payload}=action;
-        switch(type){
+    departDate(state = Date.now(), action) {
+        const { type, payload } = action;
+        switch(type) {
             case ACTION_SET_DEPART_DATE:
                 return payload;
-
-            default:return state;
+            default:
         }
+
+        return state;
     },
     isCitySelectorVisible(state=false,action){
         const {type,payload}=action;

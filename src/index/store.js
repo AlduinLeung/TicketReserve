@@ -13,7 +13,7 @@ export default createStore(
         from:'北京', //始发站城市
         to:'上海',    //终到站城市
         isCitySelectorVisible:false, //城市选择浮层
-        departDate:null,
+        departDate:Date.now(),
         currentSelectingLeftCity:false, //回填数据
         cityData:null,    //弹出浮层按需加载，弹出的浮层上的数据
         isLoadingCityData:false,//是否正在加载城市数据

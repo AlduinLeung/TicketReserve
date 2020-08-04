@@ -34,16 +34,19 @@ export function setIsLoadingCityData(isLoadingCityData){
 export function setDepartDate(departDate){
     return{
         type:ACTION_SET_DEPART_DATE,
-        paypoad:departDate
+        payload:departDate,
     }
 }
-//设置日期
+
+//设置城市数据
 export function setCityData(cityData){
     return{
         type:ACTION_SET_CITY_DATA,
         payload:cityData,
     }
 }
+
+
 export function toggleHighSpeed(){
     return (dispatch,getState)=>{
         const {highSpeed}=getState();
@@ -112,7 +115,7 @@ export function exchangeFromTo(){
     }
 }
 
-
+//获取城市数据
 export function fetchCityData(){
     return (dispatch,getState)=>{
         const {isLoadingCityData}=getState();
